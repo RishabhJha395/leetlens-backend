@@ -14,6 +14,7 @@ const sendTokenResponse = (user: IUser, statusCode: number, res: Response, acces
     expires: new Date(Date.now() + parseInt(process.env.JWT_REFRESH_EXPIRES_IN || '7') * 24 * 60 * 60 * 1000),
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' as const : 'lax' as const,
   };
 
   res.cookie('jwt', refreshToken, cookieOptions);
@@ -218,6 +219,8 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
     res.cookie('jwt', 'loggedout', {
       expires: new Date(Date.now() + 10 * 1000),
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' as const : 'lax' as const,
     });
     
     res.status(200).json({ status: 'success' });
@@ -233,6 +236,8 @@ export const logoutAllDevices = async (req: Request, res: Response, next: NextFu
     res.cookie('jwt', 'loggedout', {
       expires: new Date(Date.now() + 10 * 1000),
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' as const : 'lax' as const,
     });
 
     res.status(200).json({ status: 'success', message: 'Logged out of all devices' });
