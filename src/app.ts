@@ -22,6 +22,9 @@ import { setupSwagger } from './config/swagger';
 
 const app: Application = express();
 
+// Trust reverse proxy (required for Render/Heroku and express-rate-limit)
+app.set('trust proxy', 1);
+
 // 1. GLOBAL MIDDLEWARES
 app.use(helmet()); // Set security HTTP headers
 
