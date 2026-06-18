@@ -293,6 +293,8 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
         console.error('Failed to clear reset token on email fail:', saveErr);
       }
 
+      console.error('CRITICAL: Email send failed on Render. Check Gmail App Passwords:', err);
+
       if (process.env.NODE_ENV === 'development') {
         return res.status(200).json({
           status: 'success',
