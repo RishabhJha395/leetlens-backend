@@ -267,7 +267,8 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
     const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
 
-    const resetURL = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+    const clientUrl = process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : 'http://localhost:5173';
+    const resetURL = `${clientUrl}/reset-password/${resetToken}`;
 
     const message = `Forgot your password? Click the link below to securely reset it:\n\n${resetURL}\n\nThis link is valid for 10 minutes.\nIf you didn't forget your password, please ignore this email!`;
 
